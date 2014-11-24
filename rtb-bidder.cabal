@@ -23,6 +23,9 @@ library
   build-depends:       base >=4.7 && <4.8
                      , http-types
                      , wai
+                     , bytestring
+                     , text
+                     , aeson
   hs-source-dirs:      src/
   default-language:    Haskell2010
 
@@ -32,5 +35,6 @@ test-suite test-rtb-bidder
   main-is: test-rtb-bidder.hs
   build-depends: rtb-bidder
                , base
+               , bytestring
                , wai-extra
   default-language: Haskell2010
