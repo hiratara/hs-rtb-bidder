@@ -3,11 +3,19 @@ module Main (main) where
 import Network.Wai.Test
 import Web.RTBBidder (bidderApp)
 import Data.ByteString.Lazy.Char8 (pack)
+import qualified Web.RTBBidder.Types as WRB
+
+bidder :: WRB.Request -> IO WRB.Response
+bidder bidreq = return $ WRB.Response (WRB.reqId bidreq) [seatbid]
+  where
+    imp = head . WRB.reqImp $ bidreq
+    bid = WRB.Bid "TODO_MAKING_UNIQUE_ID" (WRB.impId imp) 100.0
+    seatbid = WRB.SeatBid [bid]
 
 main :: IO ()
 main = do
   jsonstr <- readFile "test/asset/openrtb22.json"
-  runSession (test jsonstr) bidderApp
+  runSession (test jsonstr) (bidderApp bidder)
   where
     test jsonstr = do
       res <- srequest (SRequest defaultRequest (pack jsonstr))
