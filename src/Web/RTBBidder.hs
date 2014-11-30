@@ -1,17 +1,17 @@
-{-# LANGUAGE OverloadedStrings, LambdaCase #-}
+{-# LANGUAGE OverloadedStrings, LambdaCase, RecordWildCards #-}
 module Web.RTBBidder (bidderApp) where
 import qualified Network.Wai as WAI
 import Control.Exception (bracket_)
-import qualified Web.RTBBidder.Protocol.OpenRTB22 as ORTB22
 import qualified Web.RTBBidder.Types as WRB
 
-bidderApp :: WRB.Bidder -> WAI.Application
-bidderApp bidder httpreq cont = bracket_ (return ()) (return ()) appmain
+bidderApp :: WRB.RTBProtocol -> WRB.Bidder -> WAI.Application
+bidderApp WRB.RTBProtocol{..} bidder httpreq cont = do
+  bracket_ (return ()) (return ()) appmain
   where
     appmain = do
-      bidreq <- ORTB22.decodeRequest httpreq >>= \case
+      bidreq <- rtbDecodeReq httpreq >>= \case
         Right r -> return r
         Left l -> error $ "[TODO] implement error handling: " ++ l
       bidres <- bidder bidreq
-      httpres <- ORTB22.encodeResponse bidres
+      httpres <- rtbEncodeRes bidres
       cont httpres
