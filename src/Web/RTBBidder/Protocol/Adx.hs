@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Web.RTBBidder.Protocol.Adx (
-  decodeRequest
-  , encodeResponse
+  protocol
   ) where
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as LBS
@@ -9,10 +8,7 @@ import qualified Data.Text as TX
 import qualified Data.Sequence as SEQ
 import qualified Network.Wai as WAI
 import qualified Network.HTTP.Types as NHT
-import Web.RTBBidder.Protocol.OpenRTB22 (
-  Request(..), Imp(..), Banner(..)
-  , Response(..), SeatBid(..), Bid(..)
-  )
+import Web.RTBBidder.Types
 import Text.ProtocolBuffers.Header (defaultValue)
 import Text.ProtocolBuffers.WireMessage (messageGet, messagePut)
 import qualified Web.RTBBidder.Protocol.Adx.BidRequest as ADXRQ
@@ -20,6 +16,12 @@ import qualified Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot as ADXRQSL
 import qualified Web.RTBBidder.Protocol.Adx.BidResponse as ADXRS
 import qualified Web.RTBBidder.Protocol.Adx.BidResponse.Ad as ADXRSAD
 import qualified Web.RTBBidder.Protocol.Adx.BidResponse.Ad.AdSlot as ADXRSSL
+
+protocol :: RTBProtocol
+protocol = RTBProtocol {
+  rtbDecodeReq = decodeRequest
+  , rtbEncodeRes = encodeResponse
+  }
 
 decodeRequest :: WAI.Request -> IO (Either String Request)
 decodeRequest req = do
