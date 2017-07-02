@@ -1,4 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE RecordWildCards #-}
 module Web.RTBBidder.Types (
     Banner(..)
   , Imp(..)
@@ -11,6 +13,7 @@ module Web.RTBBidder.Types (
 ) where
 import qualified Network.Wai as WAI
 import qualified Data.Aeson as AESON
+import Data.Aeson ((.=), (.:), (.:?), (.!=))
 import qualified Data.Aeson.TH as AESON
 import Data.Char (toLower)
 import qualified Data.Text as TX
@@ -68,24 +71,70 @@ data Request = Request {
   , reqApp :: Maybe App
   , reqDevice :: Maybe Device
   , reqUser :: Maybe User
-  , reqTest :: Maybe Int -- Has default
-  , reqAt :: Maybe Int -- Has default
+  , reqTest :: Int
+  , reqAt :: Int
   , reqTmax :: Maybe Int
-  , reqWseat :: Maybe [TX.Text]
-  , reqBseat :: Maybe [TX.Text]
-  , reqAllimps :: Maybe Int -- Has default
-  , reqCur :: Maybe [TX.Text]
-  , reqWlang :: Maybe [TX.Text]
-  , reqBcat :: Maybe [TX.Text]
-  , reqBadv :: Maybe [TX.Text]
-  , reqBapp :: Maybe [TX.Text]
+  , reqWseat :: [TX.Text]
+  , reqBseat :: [TX.Text]
+  , reqAllimps :: Int
+  , reqCur :: [TX.Text]
+  , reqWlang :: [TX.Text]
+  , reqBcat :: [TX.Text]
+  , reqBadv :: [TX.Text]
+  , reqBapp :: [TX.Text]
   , reqSource :: Maybe Source
   , reqRegs :: Maybe Regs
   , reqExt :: Maybe AESON.Value
   } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Request)
+
+instance AESON.FromJSON Request where
+  parseJSON = AESON.withObject "BidRequest" $ \o -> do
+    reqId <- o .: "id"
+    reqImp <- o .: "imp"
+    reqSite <- o .:? "site"
+    reqApp <- o .:? "app"
+    reqDevice <- o .:? "device"
+    reqUser <- o .:? "user"
+    reqTest <- o .:? "test" .!= 0
+    reqAt <- o .:? "at" .!= 2
+    reqTmax <- o .:? "tmax"
+    reqWseat <- o .:? "wseat" .!= []
+    reqBseat <- o .:? "bseat" .!= []
+    reqAllimps <- o .:? "allimps" .!= 0
+    reqCur <- o .:? "cur" .!= []
+    reqWlang <- o .:? "wlang" .!= []
+    reqBcat <- o .:? "bcat" .!= []
+    reqBadv <- o .:? "badv" .!= []
+    reqBapp <- o .:? "bapp" .!= []
+    reqSource <- o .:? "source"
+    reqRegs <- o .:? "regs"
+    reqExt <- o .:? "ext"
+
+    return Request{..}
+
+instance AESON.ToJSON Request where
+  toJSON Request{..} = AESON.object
+    [ "id" .= reqId
+    , "imp" .= reqImp
+    , "site" .= reqSite
+    , "app" .= reqApp
+    , "device" .= reqDevice
+    , "user" .= reqUser
+    , "test" .= reqTest
+    , "at" .= reqAt
+    , "tmax" .= reqTmax
+    , "wseat" .= reqWseat
+    , "bseat" .= reqBseat
+    , "allimps" .= reqAllimps
+    , "cur" .= reqCur
+    , "wlang" .= reqWlang
+    , "bcat" .= reqBcat
+    , "badv" .= reqBadv
+    , "bapp" .= reqBapp
+    , "source" .= reqSource
+    , "regs" .= reqRegs
+    , "ext" .= reqExt
+    ]
 
 data Bid = Bid {
   bidId :: TX.Text
