@@ -54,15 +54,47 @@ $(AESON.deriveJSON AESON.defaultOptions {
     AESON.fieldLabelModifier = map toLower . drop 4
   } ''User)
 
-data Source = Source { srcX :: Maybe () } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Source)
+data Source = Source
+  { srcFd :: Maybe Int
+  , srcTid :: Maybe TX.Text
+  , srcPchain :: Maybe TX.Text
+  , srcExt :: Maybe AESON.Value
+  } deriving (Show, Eq)
 
-data Regs = Regs { regsX :: Maybe () } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 4
-  } ''Regs)
+instance AESON.FromJSON Source where
+  parseJSON = AESON.withObject "source" $ \o -> do
+    srcFd <- o .:? "fd"
+    srcTid <- o .:? "tid"
+    srcPchain <- o .:? "pchain"
+    srcExt <- o .:? "ext"
+
+    return Source{..}
+
+instance AESON.ToJSON Source where
+  toJSON Source{..} = AESON.object
+    [ "fd" .= srcFd
+    , "tid" .= srcTid
+    , "pchain" .= srcPchain
+    , "ext" .= srcExt
+    ]
+
+data Regs = Regs
+  { regsCoppa :: Maybe Int
+  , regsExt :: Maybe AESON.Value
+  } deriving (Show, Eq)
+
+instance AESON.FromJSON Regs where
+  parseJSON = AESON.withObject "regs" $ \o -> do
+    regsCoppa <- o .:? "coppa"
+    regsExt <- o .:? "ext"
+
+    return Regs{..}
+
+instance AESON.ToJSON Regs where
+  toJSON Regs{..} = AESON.object
+    [ "coppa" .= regsCoppa
+    , "ext" .= regsExt
+    ]
 
 data Request = Request {
   reqId :: TX.Text
