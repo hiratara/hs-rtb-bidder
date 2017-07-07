@@ -26,10 +26,29 @@ $(AESON.deriveJSON AESON.defaultOptions {
     AESON.fieldLabelModifier = map toLower . drop 6
   } ''Banner)
 
-data Metric = Metric { metX :: Maybe () } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Metric)
+data Metric = Metric
+  { metType :: TX.Text
+  , metValue :: Double
+  , metVendor :: Maybe TX.Text
+  , metExt :: Maybe AESON.Value
+  } deriving (Show, Eq)
+
+instance AESON.FromJSON Metric where
+  parseJSON = AESON.withObject "metric" $ \o -> do
+    metType <- o .: "type"
+    metValue <- o .: "value"
+    metVendor <- o .:? "vendor"
+    metExt <- o .:? "ext"
+
+    return Metric{..}
+
+instance AESON.ToJSON Metric where
+  toJSON Metric{..} = AESON.object
+    [ "type" .= metType
+    , "value" .= metValue
+    , "vendor" .= metVendor
+    , "ext" .= metExt
+    ]
 
 data Video = Video { videoX :: Maybe () } deriving (Show, Eq)
 $(AESON.deriveJSON AESON.defaultOptions {
