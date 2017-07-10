@@ -272,10 +272,32 @@ instance AESON.ToJSON Audio where
     , "ext" .= audioExt
     ]
 
-data Native = Native { nativeX :: Maybe () } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 6
-  } ''Native)
+data Native = Native
+  { nativeRequest :: TX.Text
+  , nativeVer :: Maybe TX.Text
+  , nativeApi :: [Int]
+  , nativeBattr :: [Int]
+  , nativeExt :: Maybe AESON.Value
+  } deriving (Show, Eq)
+
+instance AESON.FromJSON Native where
+  parseJSON = AESON.withObject "native" $ \o -> do
+    nativeRequest <- o .: "request"
+    nativeVer <- o .:? "ver"
+    nativeApi <- o .: "api" .!= []
+    nativeBattr <- o .: "battr" .!= []
+    nativeExt <- o .: "ext"
+
+    return Native{..}
+
+instance AESON.ToJSON Native where
+  toJSON Native{..} = AESON.object
+    [ "request" .= nativeRequest
+    , "ver" .= nativeVer
+    , "api" .= nativeApi
+    , "battr" .= nativeBattr
+    , "ext" .= nativeExt
+    ]
 
 data Pmp = Pmp { pmpX :: Maybe () } deriving (Show, Eq)
 $(AESON.deriveJSON AESON.defaultOptions {
