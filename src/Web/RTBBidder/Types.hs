@@ -324,10 +324,33 @@ instance AESON.ToJSON Native where
     , "ext" .= nativeExt
     ]
 
-data Pmp = Pmp { pmpX :: Maybe () } deriving (Show, Eq)
+data Deal = Deal
+  { dealX :: Maybe ()
+  } deriving (Show, Eq)
 $(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Pmp)
+    AESON.fieldLabelModifier = map toLower . drop 4
+  } ''Deal)
+
+data Pmp = Pmp
+  { pmpPrivateAuction :: Int
+  , pmpDeals :: [Deal]
+  , pmpExt :: Maybe AESON.Value
+  } deriving (Show, Eq)
+
+instance AESON.FromJSON Pmp where
+  parseJSON = AESON.withObject "pmp" $ \o -> do
+    pmpPrivateAuction <- o .: "private_auction" .!= 0
+    pmpDeals <- o .: "deals" .!= []
+    pmpExt <- o .: "ext"
+
+    return Pmp{..}
+
+instance AESON.ToJSON Pmp where
+  toJSON Pmp{..} = AESON.object
+    [ "private_auction" .= pmpPrivateAuction
+    , "deals" .= pmpDeals
+    , "ext" .= pmpExt
+    ]
 
 data Imp = Imp {
   impId :: TX.Text
