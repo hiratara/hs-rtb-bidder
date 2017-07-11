@@ -325,11 +325,37 @@ instance AESON.ToJSON Native where
     ]
 
 data Deal = Deal
-  { dealX :: Maybe ()
+  { dealId :: TX.Text
+  , dealBidfloor :: Double
+  , dealBidfloorcur :: TX.Text
+  , dealAt :: Maybe Int
+  , dealWseat :: [TX.Text]
+  , dealWadomain :: [TX.Text]
+  , dealExt :: Maybe AESON.Value
   } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 4
-  } ''Deal)
+
+instance AESON.FromJSON Deal where
+  parseJSON = AESON.withObject "deal" $ \o -> do
+    dealId <- o .: "id"
+    dealBidfloor <- o .:? "bidfloor" .!= 0.0
+    dealBidfloorcur <- o .:? "bidfloorcur" .!= "USD"
+    dealAt <- o .:? "at"
+    dealWseat <- o .:? "wseat" .!= []
+    dealWadomain <- o .:? "wadomain" .!= []
+    dealExt <- o .:? "ext"
+
+    return Deal{..}
+
+instance AESON.ToJSON Deal where
+  toJSON Deal{..} = AESON.object
+    [ "id" .= dealId
+    , "bidfloor" .= dealBidfloor
+    , "bidfloorcur" .= dealBidfloorcur
+    , "at" .= dealAt
+    , "wseat" .= dealWseat
+    , "wadomain" .= dealWadomain
+    , "ext" .= dealExt
+    ]
 
 data Pmp = Pmp
   { pmpPrivateAuction :: Int
