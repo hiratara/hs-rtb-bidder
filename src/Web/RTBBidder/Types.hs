@@ -445,11 +445,31 @@ instance AESON.ToJSON Imp where
     ]
 
 data Publisher = Publisher
-  { pubX :: Maybe ()
+  { pubId :: Maybe TX.Text
+  , pubName :: Maybe TX.Text
+  , pubCat :: [TX.Text]
+  , pubDomain :: Maybe TX.Text
+  , pubExt :: Maybe AESON.Value
   } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Publisher)
+
+instance AESON.FromJSON Publisher where
+  parseJSON = AESON.withObject "publisher" $ \o -> do
+    pubId <- o .:? "id"
+    pubName <- o .:? "name"
+    pubCat <- o .:? "cat" .!= []
+    pubDomain <- o .:? "domain"
+    pubExt <- o .:? "ext"
+
+    return Publisher{..}
+
+instance AESON.ToJSON Publisher where
+  toJSON Publisher{..} = AESON.object
+    [ "id" .= pubId
+    , "name" .= pubName
+    , "cat" .= pubCat
+    , "domain" .= pubDomain
+    , "ext" .= pubExt
+    ]
 
 data Content = Content
   { cntX :: Maybe ()
