@@ -472,11 +472,31 @@ instance AESON.ToJSON Publisher where
     ]
 
 data Producer = Producer
-  { proX :: Maybe ()
+  { proId :: Maybe TX.Text
+  , proName :: Maybe TX.Text
+  , proCat :: [TX.Text]
+  , proDomain :: Maybe TX.Text
+  , proExt :: Maybe AESON.Value
   } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Producer)
+
+instance AESON.FromJSON Producer where
+  parseJSON = AESON.withObject "producer" $ \o -> do
+    proId <- o .:? "id"
+    proName <- o .:? "name"
+    proCat <- o .:? "cat" .!= []
+    proDomain <- o .:? "domain"
+    proExt <- o .:? "ext"
+
+    return Producer{..}
+
+instance AESON.ToJSON Producer where
+  toJSON Producer{..} = AESON.object
+    [ "id" .= proId
+    , "name" .= proName
+    , "cat" .= proCat
+    , "domain" .= proDomain
+    , "ext" .= proExt
+    ]
 
 data Data = Data
   { dataX :: Maybe ()
