@@ -499,11 +499,28 @@ instance AESON.ToJSON Producer where
     ]
 
 data Segment = Segment
-  { segX :: Maybe ()
+  { segId :: Maybe TX.Text
+  , segName :: Maybe TX.Text
+  , segValue :: Maybe TX.Text
+  , segExt :: Maybe AESON.Value
   } deriving (Show, Eq)
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 3
-  } ''Segment)
+
+instance AESON.FromJSON Segment where
+  parseJSON = AESON.withObject "segment" $ \o -> do
+    segId <- o .:? "id"
+    segName <- o .:? "name"
+    segValue <- o .:? "value"
+    segExt <- o .:? "ext"
+
+    return Segment{..}
+
+instance AESON.ToJSON Segment where
+  toJSON Segment{..} = AESON.object
+    [ "id" .= segId
+    , "name" .= segName
+    , "value" .= segValue
+    , "ext" .= segExt
+    ]
 
 data Data = Data
   { dataId :: Maybe TX.Text
