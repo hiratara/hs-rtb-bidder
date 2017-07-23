@@ -498,12 +498,36 @@ instance AESON.ToJSON Producer where
     , "ext" .= proExt
     ]
 
-data Data = Data
-  { dataX :: Maybe ()
+data Segment = Segment
+  { segX :: Maybe ()
   } deriving (Show, Eq)
 $(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 4
-  } ''Data)
+    AESON.fieldLabelModifier = map toLower . drop 3
+  } ''Segment)
+
+data Data = Data
+  { dataId :: Maybe TX.Text
+  , dataName :: Maybe TX.Text
+  , dataSegment :: [Segment]
+  , dataExt :: Maybe AESON.Value
+  } deriving (Show, Eq)
+
+instance AESON.FromJSON Data where
+  parseJSON = AESON.withObject "data" $ \o -> do
+    dataId <- o .:? "id"
+    dataName <- o .:? "name"
+    dataSegment <- o .:? "segment" .!= []
+    dataExt <- o .:? "ext"
+
+    return Data{..}
+
+instance AESON.ToJSON Data where
+  toJSON Data{..} = AESON.object
+    [ "id" .= dataId
+    , "name" .= dataName
+    , "segment" .= dataSegment
+    , "ext" .= dataExt
+    ]
 
 data Content = Content
   { cntId :: Maybe TX.Text
