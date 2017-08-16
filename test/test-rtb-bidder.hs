@@ -24,7 +24,12 @@ bidder bidreq = return res
       }
     imp = head . WRB.reqImp $ bidreq
     bid = WRB.Bid "TODO_MAKING_UNIQUE_ID" (WRB.impId imp) 100.0
-    seatbid = WRB.SeatBid [bid]
+    seatbid = WRB.SeatBid
+      { WRB.seatbidBid = [bid]
+      , WRB.seatbidSeat = Nothing
+      , WRB.seatbidGroup = 0
+      , WRB.seatbidExt = Nothing
+      }
 
 testOpenRTB22 :: IO ()
 testOpenRTB22 = do

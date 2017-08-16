@@ -1071,12 +1071,29 @@ $(AESON.deriveJSON AESON.defaultOptions {
     AESON.fieldLabelModifier = map toLower . drop 3
   } ''Bid)
 
-data SeatBid = SeatBid {
-  seatbidBid :: [Bid]
+data SeatBid = SeatBid
+  { seatbidBid :: [Bid]
+  , seatbidSeat :: Maybe TX.Text
+  , seatbidGroup :: Int
+  , seatbidExt :: Maybe AESON.Value
   }
-$(AESON.deriveJSON AESON.defaultOptions {
-    AESON.fieldLabelModifier = map toLower . drop 7
-  } ''SeatBid)
+
+instance AESON.FromJSON SeatBid where
+  parseJSON = AESON.withObject "seatbid" $ \o -> do
+    seatbidBid <- o .: "bid"
+    seatbidSeat <- o .:? "seat"
+    seatbidGroup <- o .:? "group" .!= 0
+    seatbidExt <- o .:? "ext"
+
+    return SeatBid{..}
+
+instance AESON.ToJSON SeatBid where
+  toJSON SeatBid{..} = AESON.object
+    [ "bid" .= seatbidBid
+    , "seat" .= seatbidSeat
+    , "group" .= seatbidGroup
+    , "ext" .= seatbidExt
+    ]
 
 data Response = Response
   { resId :: TX.Text
