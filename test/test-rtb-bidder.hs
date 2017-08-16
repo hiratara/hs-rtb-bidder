@@ -11,8 +11,17 @@ import Data.ByteString.Lazy.Char8 (pack)
 import qualified Web.RTBBidder.Types as WRB
 
 bidder :: WRB.Request -> IO WRB.Response
-bidder bidreq = return $ WRB.Response (WRB.reqId bidreq) [seatbid]
+bidder bidreq = return res
   where
+    res = WRB.Response
+      { WRB.resId = WRB.reqId bidreq
+      , WRB.resSeatbid = [seatbid]
+      , WRB.resBidid = Nothing
+      , WRB.resCur = "USD"
+      , WRB.resCustomdata = Nothing
+      , WRB.resNbr = Nothing
+      , WRB.resExt = Nothing
+      }
     imp = head . WRB.reqImp $ bidreq
     bid = WRB.Bid "TODO_MAKING_UNIQUE_ID" (WRB.impId imp) 100.0
     seatbid = WRB.SeatBid [bid]
