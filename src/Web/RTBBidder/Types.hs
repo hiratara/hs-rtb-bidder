@@ -367,7 +367,7 @@ instance AESON.FromJSON Pmp where
   parseJSON = AESON.withObject "pmp" $ \o -> do
     pmpPrivateAuction <- o .: "private_auction" .!= 0
     pmpDeals <- o .: "deals" .!= []
-    pmpExt <- o .: "ext"
+    pmpExt <- o .:? "ext"
 
     return Pmp{..}
 
