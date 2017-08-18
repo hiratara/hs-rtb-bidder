@@ -72,6 +72,9 @@ testOpenRTB24Native = testOpenRTB' "test/asset/openrtb24-native.json"
 testOpenRTB24PMP :: IO ()
 testOpenRTB24PMP = testOpenRTB' "test/asset/openrtb24-pmp.json"
 
+testOpenRTB24Video :: IO ()
+testOpenRTB24Video = testOpenRTB' "test/asset/openrtb24-video.json"
+
 testAdx :: IO ()
 testAdx = do
   let req = defaultValue :: ADX.BidRequest
@@ -86,4 +89,5 @@ main = do
   testOpenRTB22
   testOpenRTB24Native
   testOpenRTB24PMP
+  testOpenRTB24Video
   testAdx
