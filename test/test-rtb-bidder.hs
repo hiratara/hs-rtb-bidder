@@ -66,6 +66,9 @@ testOpenRTB' bidReqFile = do
 testOpenRTB22 :: IO ()
 testOpenRTB22 = testOpenRTB' "test/asset/openrtb22.json"
 
+testOpenRTB24 :: IO ()
+testOpenRTB24 = testOpenRTB' "test/asset/openrtb24.json"
+
 testOpenRTB24Native :: IO ()
 testOpenRTB24Native = testOpenRTB' "test/asset/openrtb24-native.json"
 
@@ -93,6 +96,7 @@ testAdx = do
 main :: IO ()
 main = do
   testOpenRTB22
+  testOpenRTB24
   testOpenRTB24Native
   testOpenRTB24PMP
   testOpenRTB24Video
