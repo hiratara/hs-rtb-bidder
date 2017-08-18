@@ -14,7 +14,7 @@
     "site":{
 	"id":"102855",
 	"domain":"http://www.foobar.com",
-	"cat":"IAB3-1",
+	"cat":["IAB3-1"],
 	"page":"http://www.foobar.com/1234.html",
 	"publisher":{
 	    "id":"8953",

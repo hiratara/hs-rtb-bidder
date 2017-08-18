@@ -32,9 +32,18 @@ decodeRequest req = do
       slotid = ADXRQSL.id adslot
       width = flip SEQ.index 0 $ ADXRQSL.width adslot
       height = flip SEQ.index 0 $ ADXRQSL.height adslot
-      banner = Banner (fromIntegral width) (fromIntegral height)
-      imp = Imp (TX.pack . show $ slotid) (Just banner)
-      rtbreq = Request (TX.pack . show $ reqid) [imp]
+      banner = Banner
+        { bannerW = Just $ fromIntegral width
+        , bannerH = Just $ fromIntegral height
+        }
+      imp = Imp
+        { impId = TX.pack . show $ slotid
+        , impBanner = Just banner
+        }
+      rtbreq = Request
+        { reqId = TX.pack . show $ reqid
+        , reqImp = [imp]
+        }
 
   return $ Right rtbreq
   where
