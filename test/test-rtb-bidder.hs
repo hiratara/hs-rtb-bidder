@@ -53,15 +53,21 @@ bidder bidreq = return res
       , WRB.seatbidExt = Nothing
       }
 
-testOpenRTB22 :: IO ()
-testOpenRTB22 = do
-  jsonstr <- readFile "test/asset/openrtb22.json"
+testOpenRTB' :: String -> IO ()
+testOpenRTB' bidReqFile = do
+  jsonstr <- readFile bidReqFile
   runSession (test jsonstr) (bidderApp ORTB22.protocol bidder)
   where
     test jsonstr = do
       res <- srequest (SRequest defaultRequest (pack jsonstr))
       assertStatus 200 res
       assertBodyContains "\"80ce30c53c16e6ede735f123ef6e32361bfc7b22\"" res
+
+testOpenRTB22 :: IO ()
+testOpenRTB22 = testOpenRTB' "test/asset/openrtb22.json"
+
+testOpenRTB24Native :: IO ()
+testOpenRTB24Native = testOpenRTB' "test/asset/openrtb24-native.json"
 
 testAdx :: IO ()
 testAdx = do
@@ -75,4 +81,5 @@ testAdx = do
 main :: IO ()
 main = do
   testOpenRTB22
+  testOpenRTB24Native
   testAdx

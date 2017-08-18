@@ -311,7 +311,7 @@ instance AESON.FromJSON Native where
     nativeVer <- o .:? "ver"
     nativeApi <- o .: "api" .!= []
     nativeBattr <- o .: "battr" .!= []
-    nativeExt <- o .: "ext"
+    nativeExt <- o .:? "ext"
 
     return Native{..}
 
