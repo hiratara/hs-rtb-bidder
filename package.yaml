@@ -1,0 +1,70 @@
+name: rtb-bidder
+version: '0.1.0.0'
+synopsis: An implementation for Real-time bidding containing OpenRTB
+category: Web
+author: Masahiro Honma
+maintainer: hiratara@cpan.org
+license: BSD3
+dependencies:
+- bytestring
+- protocol-buffers
+library:
+  source-dirs: src/
+  exposed-modules:
+  - Web.RTBBidder
+  - Web.RTBBidder.Types
+  - Web.RTBBidder.Protocol.OpenRTB22
+  - Web.RTBBidder.Protocol.Adx
+  - Web.RTBBidder.Protocol.Adx.BidRequest
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingDepth
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingState
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.BuyerPricingRule
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.DirectDeal
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate.Fields
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.SlotVisibility
+  - Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot
+  - Web.RTBBidder.Protocol.Adx.BidRequest.BidResponseFeedback
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Hyperlocal.Point
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Hyperlocal
+  - Web.RTBBidder.Protocol.Adx.BidRequest.HyperlocalSet
+  - Web.RTBBidder.Protocol.Adx.BidRequest.KeyValue
+  - Web.RTBBidder.Protocol.Adx.BidRequest.MatchingNetwork
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Mobile.DeviceOsVersion
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Mobile.MobileDeviceType
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Mobile.ScreenOrientation
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Mobile
+  - Web.RTBBidder.Protocol.Adx.BidRequest.UserDataTreatment
+  - Web.RTBBidder.Protocol.Adx.BidRequest.UserDemographic.Gender
+  - Web.RTBBidder.Protocol.Adx.BidRequest.UserDemographic
+  - Web.RTBBidder.Protocol.Adx.BidRequest.UserList
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Vertical
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video.CompanionSlot.CreativeFormat
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video.CompanionSlot
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video.ContentAttributes
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video.InventoryType
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video.SkippableBidRequestType
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video.VideoFormat
+  - Web.RTBBidder.Protocol.Adx.BidRequest.Video
+  - Web.RTBBidder.Protocol.Adx.BidResponse.Ad.AdSlot
+  - Web.RTBBidder.Protocol.Adx.BidResponse.Ad.NativeAd.Image
+  - Web.RTBBidder.Protocol.Adx.BidResponse.Ad.NativeAd
+  - Web.RTBBidder.Protocol.Adx.BidResponse.Ad.TemplateParameter
+  - Web.RTBBidder.Protocol.Adx.BidResponse.Ad
+  - Web.RTBBidder.Protocol.Adx.BidResponse
+  dependencies:
+  - base >=4.7 && <4.10
+  - http-types
+  - wai
+  - text
+  - aeson
+  - containers
+tests:
+  test-rtb-bidder:
+    main: test-rtb-bidder.hs
+    source-dirs: test/
+    dependencies:
+    - rtb-bidder
+    - base
+    - wai-extra
