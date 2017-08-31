@@ -8,6 +8,7 @@ license: BSD3
 dependencies:
 - bytestring
 - protocol-buffers
+- protocol-buffers-descriptor
 library:
   source-dirs: src/
   dependencies:

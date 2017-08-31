@@ -6,7 +6,7 @@ import Text.ProtocolBuffers (messagePut)
 import Text.ProtocolBuffers.Header (defaultValue)
 import Web.RTBBidder (bidderApp)
 import qualified Web.RTBBidder.Protocol.OpenRTB22 as ORTB22
-import qualified Web.RTBBidder.Protocol.Adx as ADX
+import qualified Web.RTBBidder.Protocol.Adx131 as ADX
 import Data.ByteString.Lazy.Char8 (pack)
 import qualified Web.RTBBidder.Types as WRB
 

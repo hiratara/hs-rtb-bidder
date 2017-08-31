@@ -1,34 +1,36 @@
-{-# LANGUAGE BangPatterns, DeriveDataTypeable, FlexibleInstances, MultiParamTypeClasses #-}
-{-# OPTIONS_GHC -fno-warn-unused-imports #-}
+{-# LANGUAGE BangPatterns, DeriveDataTypeable, DeriveGeneric, FlexibleInstances, MultiParamTypeClasses #-}
+{-# OPTIONS_GHC  -fno-warn-unused-imports #-}
 module Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingDepth (IFramingDepth(..)) where
 import Prelude ((+), (/), (.))
 import qualified Prelude as Prelude'
 import qualified Data.Typeable as Prelude'
+import qualified GHC.Generics as Prelude'
 import qualified Data.Data as Prelude'
 import qualified Text.ProtocolBuffers.Header as P'
- 
+
 data IFramingDepth = UNKNOWN_IFRAME_DEPTH
                    | NOT_IN_IFRAME
                    | ONE_IFRAME
                    | MULTIPLE_IFRAME
-                   deriving (Prelude'.Read, Prelude'.Show, Prelude'.Eq, Prelude'.Ord, Prelude'.Typeable, Prelude'.Data)
- 
+                   deriving (Prelude'.Read, Prelude'.Show, Prelude'.Eq, Prelude'.Ord, Prelude'.Typeable, Prelude'.Data,
+                             Prelude'.Generic)
+
 instance P'.Mergeable IFramingDepth
- 
+
 instance Prelude'.Bounded IFramingDepth where
   minBound = UNKNOWN_IFRAME_DEPTH
   maxBound = MULTIPLE_IFRAME
- 
+
 instance P'.Default IFramingDepth where
   defaultValue = UNKNOWN_IFRAME_DEPTH
- 
+
 toMaybe'Enum :: Prelude'.Int -> P'.Maybe IFramingDepth
 toMaybe'Enum 0 = Prelude'.Just UNKNOWN_IFRAME_DEPTH
 toMaybe'Enum 1 = Prelude'.Just NOT_IN_IFRAME
 toMaybe'Enum 2 = Prelude'.Just ONE_IFRAME
 toMaybe'Enum 3 = Prelude'.Just MULTIPLE_IFRAME
 toMaybe'Enum _ = Prelude'.Nothing
- 
+
 instance Prelude'.Enum IFramingDepth where
   fromEnum UNKNOWN_IFRAME_DEPTH = 0
   fromEnum NOT_IN_IFRAME = 1
@@ -46,7 +48,7 @@ instance Prelude'.Enum IFramingDepth where
   pred ONE_IFRAME = NOT_IN_IFRAME
   pred MULTIPLE_IFRAME = ONE_IFRAME
   pred _ = Prelude'.error "hprotoc generated code: pred failure for type Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingDepth"
- 
+
 instance P'.Wire IFramingDepth where
   wireSize ft' enum = P'.wireSize ft' (Prelude'.fromEnum enum)
   wirePut ft' enum = P'.wirePut ft' (Prelude'.fromEnum enum)
@@ -54,12 +56,12 @@ instance P'.Wire IFramingDepth where
   wireGet ft' = P'.wireGetErr ft'
   wireGetPacked 14 = P'.wireGetPackedEnum toMaybe'Enum
   wireGetPacked ft' = P'.wireGetErr ft'
- 
+
 instance P'.GPB IFramingDepth
- 
+
 instance P'.MessageAPI msg' (msg' -> IFramingDepth) IFramingDepth where
   getVal m' f' = f' m'
- 
+
 instance P'.ReflectEnum IFramingDepth where
   reflectEnum
    = [(0, "UNKNOWN_IFRAME_DEPTH", UNKNOWN_IFRAME_DEPTH), (1, "NOT_IN_IFRAME", NOT_IN_IFRAME), (2, "ONE_IFRAME", ONE_IFRAME),
@@ -70,7 +72,7 @@ instance P'.ReflectEnum IFramingDepth where
         "IFramingDepth")
       ["Web", "RTBBidder", "Protocol", "Adx", "BidRequest", "AdSlot", "IFramingDepth.hs"]
       [(0, "UNKNOWN_IFRAME_DEPTH"), (1, "NOT_IN_IFRAME"), (2, "ONE_IFRAME"), (3, "MULTIPLE_IFRAME")]
- 
+
 instance P'.TextType IFramingDepth where
   tellT = P'.tellShow
   getT = P'.getRead

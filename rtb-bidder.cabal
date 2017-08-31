@@ -2,84 +2,103 @@
 --
 -- see: https://github.com/sol/hpack
 
-name:                rtb-bidder
-version:             0.1.0.0
-synopsis:            An implementation for Real-time bidding containing OpenRTB
-license:             BSD3
-license-file:        LICENSE
-author:              Masahiro Honma
-maintainer:          hiratara@cpan.org
-category:            Web
-build-type:          Simple
-cabal-version:       >= 1.10
+name:           rtb-bidder
+version:        0.1.0.0
+synopsis:       An implementation for Real-time bidding containing OpenRTB
+category:       Web
+author:         Masahiro Honma
+maintainer:     hiratara@cpan.org
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
 
 library
-  exposed-modules:
-      Web.RTBBidder
-      Web.RTBBidder.Protocol.Adx
-      Web.RTBBidder.Protocol.Adx.BidRequest
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingDepth
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingState
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.BuyerPricingRule
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.DirectDeal
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate.Fields
-      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.SlotVisibility
-      Web.RTBBidder.Protocol.Adx.BidRequest.BidResponseFeedback
-      Web.RTBBidder.Protocol.Adx.BidRequest.Hyperlocal
-      Web.RTBBidder.Protocol.Adx.BidRequest.Hyperlocal.Point
-      Web.RTBBidder.Protocol.Adx.BidRequest.HyperlocalSet
-      Web.RTBBidder.Protocol.Adx.BidRequest.KeyValue
-      Web.RTBBidder.Protocol.Adx.BidRequest.MatchingNetwork
-      Web.RTBBidder.Protocol.Adx.BidRequest.Mobile
-      Web.RTBBidder.Protocol.Adx.BidRequest.Mobile.DeviceOsVersion
-      Web.RTBBidder.Protocol.Adx.BidRequest.Mobile.MobileDeviceType
-      Web.RTBBidder.Protocol.Adx.BidRequest.Mobile.ScreenOrientation
-      Web.RTBBidder.Protocol.Adx.BidRequest.UserDataTreatment
-      Web.RTBBidder.Protocol.Adx.BidRequest.UserDemographic
-      Web.RTBBidder.Protocol.Adx.BidRequest.UserDemographic.Gender
-      Web.RTBBidder.Protocol.Adx.BidRequest.UserList
-      Web.RTBBidder.Protocol.Adx.BidRequest.Vertical
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video.CompanionSlot
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video.CompanionSlot.CreativeFormat
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video.ContentAttributes
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video.InventoryType
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video.SkippableBidRequestType
-      Web.RTBBidder.Protocol.Adx.BidRequest.Video.VideoFormat
-      Web.RTBBidder.Protocol.Adx.BidResponse
-      Web.RTBBidder.Protocol.Adx.BidResponse.Ad
-      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.AdSlot
-      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.NativeAd
-      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.NativeAd.Image
-      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.TemplateParameter
-      Web.RTBBidder.Protocol.OpenRTB22
-      Web.RTBBidder.Types
-  other-modules:
-      Paths_rtb_bidder
+  hs-source-dirs:
+      src/
   build-depends:
       bytestring
     , protocol-buffers
+    , protocol-buffers-descriptor
     , base >=4.7 && <4.10
     , http-types
     , wai
     , text
     , aeson
     , containers
-  hs-source-dirs:
-      src/
+  exposed-modules:
+      Web.RTBBidder
+      Web.RTBBidder.Protocol.Adx
+      Web.RTBBidder.Protocol.Adx.BidRequest
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.AllowedAdType
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.AmpAdRequestType
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.AutoRefresh
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.AutoRefresh.AutoRefreshSettings
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.AutoRefresh.AutoRefreshSettings.AutoRefreshType
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.ExchangeBidding
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingDepth
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.IFramingState
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.BuyerPricingRule
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.DirectDeal
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MatchingAdData.DirectDeal.DealType
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.MediationStatus
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate.Fields
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NativeAdTemplate.LayoutType
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.NonBrowserSource
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.Renderer
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.SlotVisibility
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.StickySettings
+      Web.RTBBidder.Protocol.Adx.BidRequest.AdSlot.StickySettings.Stickiness
+      Web.RTBBidder.Protocol.Adx.BidRequest.BidResponseFeedback
+      Web.RTBBidder.Protocol.Adx.BidRequest.Device
+      Web.RTBBidder.Protocol.Adx.BidRequest.Device.DeviceType
+      Web.RTBBidder.Protocol.Adx.BidRequest.Device.OsVersion
+      Web.RTBBidder.Protocol.Adx.BidRequest.Device.ScreenOrientation
+      Web.RTBBidder.Protocol.Adx.BidRequest.Hyperlocal
+      Web.RTBBidder.Protocol.Adx.BidRequest.Hyperlocal.Point
+      Web.RTBBidder.Protocol.Adx.BidRequest.HyperlocalSet
+      Web.RTBBidder.Protocol.Adx.BidRequest.KeyValue
+      Web.RTBBidder.Protocol.Adx.BidRequest.Mobile
+      Web.RTBBidder.Protocol.Adx.BidRequest.PublisherType
+      Web.RTBBidder.Protocol.Adx.BidRequest.UserDataTreatment
+      Web.RTBBidder.Protocol.Adx.BidRequest.UserList
+      Web.RTBBidder.Protocol.Adx.BidRequest.Vertical
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.CompanionSlot
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.CompanionSlot.CreativeFormat
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.ContentAttributes
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.EndCapSupport
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.InventoryType
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.Placement
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.SkippableBidRequestType
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.VideoFormat
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.VideoPlaybackMethod
+      Web.RTBBidder.Protocol.Adx.BidRequest.Video.VideoProtocol
+      Web.RTBBidder.Protocol.Adx.BidResponse
+      Web.RTBBidder.Protocol.Adx.BidResponse.Ad
+      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.AdSlot
+      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.AdSlot.ExchangeDealType
+      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.NativeAd
+      Web.RTBBidder.Protocol.Adx.BidResponse.Ad.NativeAd.Image
+      Web.RTBBidder.Protocol.Adx131
+      Web.RTBBidder.Protocol.OpenRTB22
+      Web.RTBBidder.Types
+  other-modules:
+      Paths_rtb_bidder
   default-language: Haskell2010
 
 test-suite test-rtb-bidder
   type: exitcode-stdio-1.0
+  main-is: test-rtb-bidder.hs
   hs-source-dirs:
       test/
-  main-is: test-rtb-bidder.hs
   build-depends:
       bytestring
     , protocol-buffers
+    , protocol-buffers-descriptor
     , rtb-bidder
     , base
     , wai-extra
