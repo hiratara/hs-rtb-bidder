@@ -1,6 +1,8 @@
 resolver: lts-9.1
 packages:
     - '.'
-extra-deps: []
+extra-deps:
+    - protocol-buffers-2.4.3
+    - protocol-buffers-descriptor-2.4.3
 flags: {}
 extra-package-dbs: []
