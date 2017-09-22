@@ -1,6 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE RecordWildCards #-}
 module Web.RTBBidder.Types (
     Banner(..)
   , Imp(..)
@@ -12,11 +9,6 @@ module Web.RTBBidder.Types (
   , RTBProtocol(..)
 ) where
 import qualified Network.Wai as WAI
-import qualified Data.Aeson as AESON
-import Data.Aeson ((.=), (.:), (.:?), (.!=))
-import qualified Data.Aeson.TH as AESON
-import Data.Char (toLower)
-import qualified Data.Text as TX
 
 import Web.RTBBidder.Types.Request (Request(..))
 import Web.RTBBidder.Types.Request.Imp (Imp(..))
