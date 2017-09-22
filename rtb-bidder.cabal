@@ -108,6 +108,9 @@ library
       Web.RTBBidder.Types.Request.Source
       Web.RTBBidder.Types.Request.User
       Web.RTBBidder.Types.Request.Video
+      Web.RTBBidder.Types.Response
+      Web.RTBBidder.Types.Response.Bid
+      Web.RTBBidder.Types.Response.SeatBid
   default-language: Haskell2010
 
 test-suite test-rtb-bidder
