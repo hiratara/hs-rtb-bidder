@@ -86,6 +86,31 @@ library
       Web.RTBBidder.Protocol.Adx131
       Web.RTBBidder.Protocol.OpenRTB22
       Web.RTBBidder.Types
+      Web.RTBBidder.Types.Request
+      Web.RTBBidder.Types.Request.App
+      Web.RTBBidder.Types.Request.Audio
+      Web.RTBBidder.Types.Request.Banner
+      Web.RTBBidder.Types.Request.Content
+      Web.RTBBidder.Types.Request.Data
+      Web.RTBBidder.Types.Request.Deal
+      Web.RTBBidder.Types.Request.Device
+      Web.RTBBidder.Types.Request.Format
+      Web.RTBBidder.Types.Request.Geo
+      Web.RTBBidder.Types.Request.Imp
+      Web.RTBBidder.Types.Request.Metric
+      Web.RTBBidder.Types.Request.Native
+      Web.RTBBidder.Types.Request.Pmp
+      Web.RTBBidder.Types.Request.Producer
+      Web.RTBBidder.Types.Request.Publisher
+      Web.RTBBidder.Types.Request.Regs
+      Web.RTBBidder.Types.Request.Segment
+      Web.RTBBidder.Types.Request.Site
+      Web.RTBBidder.Types.Request.Source
+      Web.RTBBidder.Types.Request.User
+      Web.RTBBidder.Types.Request.Video
+      Web.RTBBidder.Types.Response
+      Web.RTBBidder.Types.Response.Bid
+      Web.RTBBidder.Types.Response.SeatBid
   default-language: Haskell2010
 
 test-suite test-rtb-bidder
